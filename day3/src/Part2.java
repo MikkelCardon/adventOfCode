@@ -2,8 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Main {
+public class Part2 {
     public static int result;
+    public static boolean doMultiply = true;
 
     public static void main(String[] args) {
         try {
@@ -23,13 +24,15 @@ public class Main {
         String textToLookFor = "mul(";
 
         for (int i = 0; i < text.length() - textToLookFor.length(); i++) {
-            String tempText = text.substring(i, i + textToLookFor.length());
+            checkForDo(text, i);
+            if (doMultiply){
+                String tempText = text.substring(i, i + textToLookFor.length());
 
-            if (tempText.equals(textToLookFor)) {
-                try {
-                    if (!text.substring(i).contains(")")) {
-                        break;
-                    }
+                if (tempText.equals(textToLookFor)) {
+                    try {
+                        if (!text.substring(i).contains(")")) {
+                            break;
+                        }
                         int slutIndex = text.indexOf(")", i);
 
                         if (slutIndex == -1) {
@@ -57,10 +60,25 @@ public class Main {
                             }
                         }
 
-                } catch (StringIndexOutOfBoundsException ex) {
-                    System.out.println("Index out of bounds: " + ex.getMessage());
+                    } catch (StringIndexOutOfBoundsException ex) {
+                        System.out.println("Index out of bounds: " + ex.getMessage());
+                    }
                 }
             }
+        }
+    }
+
+    private static void checkForDo(String text, int i) {
+        try{
+            if (text.substring(i, i+4).equals("do()")){
+                doMultiply = true;
+            }
+            else if (text.substring(i, i+7).equals("don't()")){
+                doMultiply = false;
+            }
+        }
+        catch (StringIndexOutOfBoundsException ex){
+            System.out.println(ex.getMessage());
         }
     }
 }
