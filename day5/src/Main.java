@@ -16,8 +16,10 @@ public class Main {
     private static ArrayList<Integer> int1 = new ArrayList<>();
     private static ArrayList<Integer> int2 = new ArrayList<>();
 
+    private static int sumAfterOrg;
+
     public static void main(String[] args) throws IOException {
-        List<String> rules = getInput("src/Input-test");
+        List<String> rules = getInput("src/Rules");
         List<String> lists = getInput("src/lists");
 
         ArrayList<ArrayList<Integer>> arrayListOfLists = new ArrayList<>();
@@ -45,11 +47,10 @@ public class Main {
         for (ArrayList<Integer> arrayListOfList : arrayListOfLists) {
             checkList(arrayListOfList);
         }
+
         System.out.println(middlePageSum);
-//        ArrayList<Integer> orgTest  = new ArrayList<>(Arrays.asList(75,97,47,61,53));
-//        System.out.println(orgTest);
-//        organizeFalseList(orgTest);
-//        System.out.println(orgTest);
+        System.out.println("sumAfterOrg = " + sumAfterOrg);
+
 
     }
     public static void checkList(ArrayList<Integer> list){
@@ -58,42 +59,43 @@ public class Main {
             if (list.contains(int1.get(i)) && list.contains(int2.get(i))){
                 if (list.indexOf(int2.get(i)) < list.indexOf(int1.get(i))){
                     isAccepted = false;
-                    //organizeFalseList(list);
+                    organizeFalseList(list);
                     break;
                 }
             }
         }
         if (isAccepted){
-            middlePageSum += list.get(list.size() / 2);
+            middlePageSum += list.get((list.size()-1) / 2);
         }
     }
 
-//    public static void organizeFalseList(ArrayList<Integer> list){
-//        boolean beenSwapped = true;
-//        while(beenSwapped){
-//            beenSwapped = false;
-//
-//            for (int i = 0; i < int1.size(); i++) {
-//                if (list.contains(int1.get(i)) && list.contains(int2.get(i))){
-//                    if (list.indexOf(int2.get(i)) < list.indexOf(int1.get(i))){
-//                        int temp = list.get(list.indexOf(int1.get(i)));
-//                        list.remove(int1.get(i));
-//
-//                        if (list.indexOf(int2.get(i)) == list.size()-1){
-//                            list.add(temp);
-//                            System.out.println(list + "SIDSTE!!");
-//                        }
-//                        else {
-//                            list.add(list.indexOf(int2.get(i))+1, temp);
-//                            System.out.println(list + "lægges baefter");
-//                        }
-//                        beenSwapped = true;
-//                    }
-//                }
-//            }
-//        }
-//        //Tag midter tal
-//    }
+    public static void organizeFalseList(ArrayList<Integer> list){
+        boolean beenSwapped = true;
+        while(beenSwapped){
+            beenSwapped = false;
+
+            for (int i = 0; i < int1.size(); i++) {
+                if (list.contains(int1.get(i)) && list.contains(int2.get(i))){
+                    if (list.indexOf(int2.get(i)) < list.indexOf(int1.get(i))){
+                        int temp = list.get(list.indexOf(int1.get(i)));
+                        list.remove(int1.get(i));
+
+                        if (list.indexOf(int2.get(i)) == 0){
+                            list.addFirst( temp);
+                            System.out.println(list + "Første" + temp);
+                        }
+                        else {
+                            list.add(list.indexOf(int2.get(i)), temp);
+                            System.out.println(list + "lægges foran" + temp);
+                        }
+                        beenSwapped = true;
+                    }
+                }
+            }
+        }
+        sumAfterOrg += list.get((list.size() - 1) / 2);
+        System.out.println("TEEEST!!!");
+    }
 
 
     public static List<String> getInput(String file) throws IOException {
