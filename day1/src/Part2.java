@@ -1,12 +1,13 @@
-import java.io.*;
-import java.net.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static java.util.Collections.sort;
 import static java.util.Collections.swap;
 
-public class Main {
+public class Part2 {
+
+    public static int totalDistance = 0;
         public static void main(String[] args) throws FileNotFoundException {
             ArrayList<Integer> array1 = new ArrayList<>();
             ArrayList<Integer> array2 = new ArrayList<>();
@@ -24,21 +25,24 @@ public class Main {
                 }
                 line++;
             }
-            sortArray(array1);
             sortArray(array2);
 
-            int totalDistance = 0;
-            for (int i = 0; i < array1.size(); i++) {
-                if (array2.get(i) - array1.get(i) < 0){
-                    totalDistance += (array2.get(i) - array1.get(i)) * -1;
-                }
-                else {
-                    totalDistance += array2.get(i) - array1.get(i);
-                }
-            }
 
+            for (Integer integer : array1) {
+                findOccurrence(integer, array2);
+            }
             System.out.println(totalDistance);
         }
+        public static void findOccurrence(int intToFind, ArrayList<Integer> array){
+            int count = 0;
+            for (Integer i : array) {
+               if (i == intToFind){
+                   count++;
+               }
+            }
+            totalDistance += count*intToFind;
+        }
+
 
         public static void sortArray(ArrayList<Integer> array){
             boolean isSwapped = true;
